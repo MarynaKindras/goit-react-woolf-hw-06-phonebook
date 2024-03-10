@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import {
-  ButtonTextWrapper,
   Field,
   FieldWrapper,
   Form,
@@ -9,27 +8,29 @@ import {
   Button,
 } from './ContactForm.styled';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectContacts, selectIsLoading } from '../../redux/selectors';
-import { createContact } from '../../redux/contacts/operations';
+import { selectContacts } from '../../redux/selectors';
+import { createContact } from '../../redux/contacts/slice';
 
 const ContactForm = () => {
   const [name, setName] = useState('');
   const [tel, setTel] = useState('');
 
   const contacts = useSelector(selectContacts);
-  const isLoading = useSelector(selectIsLoading);
   const dispatch = useDispatch();
 
   const onSubmitHandler = e => {
     e.preventDefault();
+
     const hasContact = contacts.some(
       contact => contact.name.toLowerCase() === name.toLowerCase()
     );
+
     if (hasContact) {
       alert(`${name} is already in contacts`);
     } else {
-      dispatch(createContact({ name, phone: tel }));
+      dispatch(createContact({ name, tel }));
     }
+
     setName('');
     setTel('');
   };
@@ -38,7 +39,7 @@ const ContactForm = () => {
     <Form onSubmit={onSubmitHandler}>
       <FieldWrapper>
         <Label>
-          <LabelValue>Name</LabelValue>
+          <LabelValue>Name:</LabelValue>
           <Field
             type="text"
             name="name"
@@ -53,7 +54,7 @@ const ContactForm = () => {
         </Label>
 
         <Label>
-          <LabelValue> Phone Number</LabelValue>
+          <LabelValue> Number:</LabelValue>
           <Field
             type="tel"
             name="tel"
@@ -68,9 +69,7 @@ const ContactForm = () => {
         </Label>
       </FieldWrapper>
 
-      <Button type="submit" disabled={isLoading}>
-        <ButtonTextWrapper>Add contact</ButtonTextWrapper>
-      </Button>
+      <Button type="submit">Add contact</Button>
     </Form>
   );
 };

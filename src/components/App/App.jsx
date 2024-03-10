@@ -1,28 +1,15 @@
 import ContactForm from 'components/ContactForm';
 import Container from 'components/Container';
+import Search from 'components/Search';
 import Section from 'components/Section';
-import Contacts from 'components/Contacts';
-import 'react-toastify/dist/ReactToastify.css';
+import ContactList from 'components/ContactList';
+import Notification from 'components/Notification';
 import { MainHeading } from './App.styled';
-import { useDispatch, useSelector } from 'react-redux';
-import { selectError, selectIsLoading } from '../../redux/selectors';
-import { useEffect } from 'react';
-import { getContacts } from '../../redux/contacts/operations';
-import { ToastContainer, toast } from 'react-toastify';
-import Loader from 'components/Loader';
+import { useSelector } from 'react-redux';
+import { selectContactsLength } from '../../redux/selectors';
 
 const App = () => {
-  const dispatch = useDispatch();
-  const error = useSelector(selectError);
-  const isLoading = useSelector(selectIsLoading);
-
-  useEffect(() => {
-    dispatch(getContacts());
-  }, [dispatch]);
-
-  useEffect(() => {
-    if (error) toast.error(error);
-  }, [error]);
+  const contactLength = useSelector(selectContactsLength);
 
   return (
     <div>
@@ -34,10 +21,16 @@ const App = () => {
       </Container>
 
       <Container>
-        <Contacts />
+        <Section title="Contacts">
+          {contactLength !== 0 && <Search />}
+
+          {contactLength !== 0 ? (
+            <ContactList />
+          ) : (
+            <Notification message="No contacts" />
+          )}
+        </Section>
       </Container>
-      <ToastContainer />
-      {isLoading && <Loader />}
     </div>
   );
 };

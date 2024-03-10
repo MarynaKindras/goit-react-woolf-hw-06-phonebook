@@ -52,9 +52,3 @@ export const Button = styled('button')`
     background-color: #305c9d;
   }
 `;
-
-export const ButtonTextWrapper = styled('span')`
-  display: flex;
-  align-items: center;
-  column-gap: 10px;
-`;
