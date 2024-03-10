@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const Form = styled.form`
+export const Form = styled('form')`
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -10,11 +10,31 @@ export const Form = styled.form`
   border-radius: 10px;
 `;
 
-export const Input = styled.input`
-  width: 250px;
+export const FieldWrapper = styled('div')`
+  //...
+`;
+
+export const Label = styled('label')`
+  display: block;
+  &:first-child {
+    margin-bottom: 10px;
+  }
+`;
+
+export const LabelValue = styled('span')`
+  display: block;
+  font-size: 16px;
+  margin-bottom: 2px;
+`;
+
+export const Field = styled('input')`
+  display: block;
+  font-size: 16px;
+  width: 100%;
   padding: 5px;
 `;
-export const Button = styled.button`
+
+export const Button = styled('button')`
   width: 100px;
   padding: 5px;
   border: 1px solid #212121;
