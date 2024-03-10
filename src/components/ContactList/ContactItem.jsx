@@ -1,25 +1,35 @@
 import PropTypes from 'prop-types';
-import { CardWrapper, Delete, Meta, Name, Tel } from './ContactList.styled';
-import { useDispatch } from 'react-redux';
-import { removeContact } from '../../redux/contacts/slice';
+import {
+  ButtonTextWrapper,
+  CardWrapper,
+  Delete,
+  Meta,
+  Name,
+  Tel,
+} from './ContactList.styled';
+import { useDispatch, useSelector } from 'react-redux';
+import { removeContact } from '../../redux/contacts/operations';
+import { selectIsLoading } from '../../redux/selectors';
 
-const ContactItem = ({ id, name, tel }) => {
+const ContactItem = ({ id, name, phone }) => {
   const dispatch = useDispatch();
+  const isLoading = useSelector(selectIsLoading);
 
   return (
     <CardWrapper>
       <Meta>
         <Name>{name}</Name>
-        <Tel>{tel}</Tel>
+        <Tel>{phone}</Tel>
       </Meta>
 
       <Delete
         type="button"
+        disabled={isLoading}
         onClick={() => {
           dispatch(removeContact(id));
         }}
       >
-        Delete
+        <ButtonTextWrapper>Delete</ButtonTextWrapper>
       </Delete>
     </CardWrapper>
   );
@@ -30,5 +40,5 @@ export default ContactItem;
 ContactItem.propTypes = {
   id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
-  tel: PropTypes.string.isRequired,
+  phone: PropTypes.string.isRequired,
 };
